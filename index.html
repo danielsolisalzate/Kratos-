@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kratos Barber Shop · Reserva tu cita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#15110c; --coal:#1d1812; --panel:#251f17; --line:#382f22; --line2:#4a3e2b;
+  --gold:#c9a14a; --gold-hi:#e8c97d; --gold-lo:#8f6f2a;
+  --bone:#f2e9d6; --mute:#a99d85; --ok:#7fb069; --bad:#d9694f;
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{overflow-x:hidden}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px);-webkit-text-size-adjust:100%}
+body{margin:0;color:var(--bone);font-family:var(--sans);font-size:16px;line-height:1.55;min-height:100vh;
+  background-color:var(--ink);
+  background-image:radial-gradient(900px 460px at 85% -8%,rgba(201,161,74,.13),transparent 70%),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.016) 0 2px,transparent 2px 16px)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+
+header{border-bottom:1px solid var(--line);background:rgba(21,17,12,.92);backdrop-filter:blur(8px);position:sticky;top:env(safe-area-inset-top,0px);z-index:10}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.brand{display:flex;align-items:center;gap:12px;background:none;border:0;cursor:pointer;padding:0}
+.pole{width:14px;height:36px;border-radius:7px;border:1px solid var(--gold-lo);
+  background:repeating-linear-gradient(-45deg,var(--gold) 0 6px,var(--ink) 6px 12px,var(--bone) 12px 18px,var(--ink) 18px 24px);
+  background-size:34px 34px;animation:spin 3s linear infinite}
+@keyframes spin{to{background-position:0 34px}}
+@media (prefers-reduced-motion:reduce){.pole{animation:none}*{scroll-behavior:auto!important}}
+.brand span.t{display:flex;flex-direction:column;align-items:flex-start;line-height:1.05}
+.brand b{font-family:var(--serif);font-size:21px;font-weight:800;letter-spacing:.01em}
+.brand small{font-size:12px;color:var(--mute);font-weight:500;margin-top:2px}
+nav{display:flex;gap:2px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+nav button{background:none;border:0;color:var(--mute);padding:9px 13px;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;min-height:40px}
+nav button:hover{color:var(--bone)}
+nav button.on{color:var(--gold-hi);box-shadow:inset 0 -2px 0 var(--gold)}
+nav .who{display:flex;align-items:center;gap:8px;margin-right:8px;color:var(--mute);font-size:14px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 24px;border-radius:12px;
+  border:1px solid var(--gold);background:transparent;color:var(--gold-hi);font-weight:700;font-size:16px;cursor:pointer;
+  transition:background .15s,color .15s,border-color .15s,transform .1s;width:100%}
+.btn:hover{background:rgba(201,161,74,.12)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--gold);color:#1a1409;box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 6px 18px rgba(201,161,74,.18)}
+.btn.primary:hover{background:var(--gold-hi);border-color:var(--gold-hi)}
+.btn.quiet{border-color:var(--line2);color:var(--bone)}
+.btn.quiet:hover{border-color:var(--gold-lo);background:var(--coal)}
+.btn.small{min-height:42px;padding:0 18px;font-size:14px;width:auto}
+.btn svg{width:20px;height:20px;flex:none}
+
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;padding:72px 0 40px}
+.hero h1{font-family:var(--serif);font-weight:800;font-size:clamp(42px,7vw,72px);line-height:1;margin:0 0 20px;letter-spacing:-.015em}
+.hero p.lead{font-size:18px;color:var(--mute);max-width:44ch;margin:0 0 30px}
+.actions{display:grid;gap:12px;max-width:390px}
+.ticket{background:linear-gradient(180deg,var(--panel),var(--coal));border:1px solid var(--line2);border-radius:16px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.ticket h3{font-family:var(--serif);margin:0 0 2px;font-size:23px}
+.ticket .sub{color:var(--mute);font-size:14px;margin-bottom:16px}
+.tk{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px dashed var(--line2);font-size:15px}
+.tk span:first-child{color:var(--mute)}
+.tk span:last-child{color:var(--bone);font-weight:600;text-align:right}
+.tk.tot span:last-child{color:var(--gold-hi);font-family:var(--serif);font-size:20px}
+.pays{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{border:1px solid var(--line2);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--mute);background:var(--ink)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:14px;background:var(--coal);margin:24px 0 8px}
+.fact{padding:22px 20px;text-align:center}
+.fact+.fact{border-left:1px solid var(--line)}
+.fact b{display:block;font-family:var(--serif);font-size:34px;color:var(--gold-hi);line-height:1.1}
+.fact span{color:var(--mute);font-size:14px}
+
+main{padding:44px 0 90px;min-height:70vh}
+h2{font-family:var(--serif);font-size:clamp(28px,4vw,40px);margin:0 0 8px;line-height:1.1;letter-spacing:-.01em}
+.muted{color:var(--mute)}
+.sec{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:44px 0 16px}
+.sec h3{font-family:var(--serif);font-size:24px;margin:0}
+
+.crest{width:54px;height:54px;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;flex:none;
+  font-family:var(--serif);font-weight:800;font-size:19px;color:var(--gold-hi);background:radial-gradient(circle at 30% 25%,#2d2518,var(--ink))}
+.crest.big{width:68px;height:68px;font-size:25px}
+.av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex:none;font-weight:800;font-size:15px;
+  color:#1a1409;background:linear-gradient(135deg,var(--gold-hi),var(--gold-lo))}
+.av.lg{width:56px;height:56px;font-size:18px}
+.star{display:inline-flex;align-items:center;gap:5px;font-weight:700;font-size:14px;color:var(--gold-hi)}
+.star svg{width:15px;height:15px;fill:var(--gold)}
+.star small{color:var(--mute);font-weight:500}
+.dot{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600}
+.dot::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.dot.off{color:var(--mute)}
+.dot.off::before{background:var(--mute)}
+
+.tools{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.search{position:relative;flex:1;min-width:240px}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--mute)}
+.search input{padding-left:42px}
+.tg{background:var(--coal);border:1px solid var(--line2);border-radius:10px;padding:0 18px;min-height:48px;font-weight:600;cursor:pointer;color:var(--mute)}
+.tg.on{border-color:var(--gold);color:var(--gold-hi);background:rgba(201,161,74,.12)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card{background:var(--coal);border:1px solid var(--line);border-radius:16px;padding:22px}
+.card.link{cursor:pointer;text-align:left;width:100%;display:flex;flex-direction:column;gap:14px;transition:border-color .15s,background .15s}
+.card.link:hover{border-color:var(--gold);background:var(--panel)}
+.card h3{font-family:var(--serif);font-size:21px;margin:0;line-height:1.2}
+.ch{display:flex;gap:14px;align-items:center}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.cfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:14px;font-size:14px}
+.cfoot b{color:var(--gold-hi)}
+.stack{display:flex}
+.stack .av{width:34px;height:34px;font-size:11px;border:2px solid var(--coal);margin-left:-6px}
+.stack .av:first-child{margin-left:0}
+.hs{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.hs::-webkit-scrollbar{height:6px}.hs::-webkit-scrollbar-thumb{background:var(--line2);border-radius:3px}
+.bc{flex:none;width:236px;scroll-snap-align:start;background:var(--coal);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:left;cursor:pointer;transition:border-color .15s}
+.bc:hover{border-color:var(--gold)}
+.bc b{display:block;margin-top:12px;font-size:16px}
+.bc>span:not(.av){display:block;font-size:13px;color:var(--mute)}
+.bc>.sp{color:var(--gold-hi);margin-top:6px;font-weight:600}
+
+.formbox{max-width:480px;margin:0 auto}
+.formbox.wide{max-width:660px}
+.panelbox{background:var(--coal);border:1px solid var(--line);border-radius:18px;padding:30px}
+label{display:block;font-weight:600;font-size:14px;margin:18px 0 6px}
+input,select,textarea{width:100%;background:var(--ink);border:1px solid var(--line2);border-radius:10px;padding:13px 14px;min-height:50px}
+textarea{min-height:112px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 3px rgba(201,161,74,.25)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hint{font-size:13px;color:var(--mute);margin-top:6px}
+.err{background:rgba(217,105,79,.12);border:1px solid var(--bad);color:#f3b8a9;border-radius:10px;padding:12px 14px;margin-top:16px;font-size:14px}
+.err:empty{display:none}
+.back{background:none;border:0;color:var(--mute);cursor:pointer;padding:0;margin-bottom:22px;font-weight:600}
+.back:hover{color:var(--gold-hi)}
+.swap{text-align:center;margin-top:20px;color:var(--mute);font-size:15px}
+.swap button{background:none;border:0;color:var(--gold-hi);font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+.shophead{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.book>*{min-width:0}
+.book{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:44px;margin-top:10px;align-items:start}
+.sh{display:flex;align-items:center;gap:12px;margin:40px 0 16px}
+.sh:first-child{margin-top:28px}
+.sh .n{width:30px;height:30px;border-radius:50%;background:var(--gold);color:#1a1409;font-weight:800;display:grid;place-items:center;font-size:14px;flex:none}
+.sh h3{font-family:var(--serif);font-size:23px;margin:0}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{background:var(--coal);border:1px solid var(--line2);border-radius:12px;padding:12px 18px;cursor:pointer;font-weight:600;min-height:48px;transition:border-color .15s}
+.opt:hover{border-color:var(--gold-lo)}
+.opt.on{border-color:var(--gold);background:rgba(201,161,74,.15);color:var(--gold-hi)}
+.opt[disabled]{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.bk{display:flex;gap:12px;align-items:center;text-align:left;background:var(--coal);border:1px solid var(--line2);border-radius:14px;padding:14px;cursor:pointer;transition:border-color .15s}
+.bk:hover{border-color:var(--gold-lo)}
+.bk.on{border-color:var(--gold);background:rgba(201,161,74,.13)}
+.bk b{display:block;font-size:15px}
+.bk small{display:block;color:var(--mute);font-size:13px;line-height:1.3}
+.bk em{font-style:normal;font-size:12px;color:var(--gold-hi);font-weight:700}
+.list{display:grid;gap:10px}
+.svc{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left}
+.svc small{display:block;color:var(--mute);font-weight:500}
+.svc .pr{color:var(--gold-hi);font-weight:800;white-space:nowrap}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.day{flex:none;min-width:64px;text-align:center;padding:10px 6px;border-radius:12px;border:1px solid var(--line2);background:var(--coal);cursor:pointer}
+.day small{display:block;color:var(--mute);font-size:12px;font-weight:600}
+.day b{display:block;font-size:18px;line-height:1.2}
+.day.on{border-color:var(--gold);background:rgba(201,161,74,.15)}
+.day.on small,.day.on b{color:var(--gold-hi)}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.slots .opt{padding:10px 0;text-align:center;font-size:14px}
+.side{position:sticky;top:92px}
+.empty{border:1px dashed var(--line2);border-radius:14px;padding:36px 20px;text-align:center;color:var(--mute);margin-top:12px}
+
+.done{text-align:center;max-width:520px;margin:20px auto}
+.check{width:76px;height:76px;border-radius:50%;border:2px solid var(--gold);display:grid;place-items:center;margin:0 auto 20px;color:var(--gold-hi)}
+.check svg{width:36px;height:36px}
+.row2{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+.status{font-size:13px;font-weight:700;padding:3px 11px;border-radius:999px;border:1px solid var(--line2)}
+.status.confirmada{color:var(--ok);border-color:var(--ok)}
+.status.cancelada{color:var(--bad);border-color:var(--bad)}
+.status.completada{color:var(--gold-hi);border-color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:26px}
+.stat{background:var(--coal);border:1px solid var(--line);border-radius:14px;padding:18px}
+.stat b{display:block;font-family:var(--serif);font-size:28px;color:var(--gold-hi)}
+.stat span{color:var(--mute);font-size:14px}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+details.demo{margin-top:22px;border:1px solid var(--line2);border-radius:14px;background:var(--coal);padding:14px 16px}
+details.demo summary{cursor:pointer;font-weight:700;color:var(--gold-hi)}
+.demolist{display:grid;gap:8px;margin-top:12px}
+.demolist button{display:grid;gap:2px;text-align:left;background:var(--ink);border:1px solid var(--line2);border-radius:10px;padding:10px 14px;cursor:pointer}
+.demolist button:hover{border-color:var(--gold-lo)}
+.demolist b{font-size:15px}
+.demolist span{color:var(--mute);font-size:13px;word-break:break-all}
+.agbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:24px}
+.agbar input[type=date]{width:auto;min-height:42px}
+.aglist{display:grid;gap:12px;margin-top:8px}
+.agr{display:grid;grid-template-columns:118px 1fr;gap:18px;background:var(--coal);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.agr.now{border-color:var(--gold);background:rgba(201,161,74,.10)}
+.agr.off{opacity:.55}
+.agt b{display:block;font-family:var(--serif);font-size:20px;line-height:1.2;color:var(--gold-hi)}
+.agt small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+.agm{display:grid;gap:6px;min-width:0}
+.agm h3{margin:0;font-size:18px}
+.tag{display:inline-block;width:fit-content;font-size:12px;font-weight:800;padding:2px 10px;border-radius:999px;background:var(--gold);color:#1a1409}
+.tag.next{background:transparent;color:var(--gold-hi);border:1px solid var(--gold-lo)}
+@media (max-width:640px){.agr{grid-template-columns:1fr;gap:8px}.agt{display:flex;gap:10px;align-items:baseline}}
+
+.bhero{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:36px 0 12px}
+.bhero h1{font-family:var(--serif);font-weight:800;font-size:clamp(36px,6vw,58px);line-height:1.04;margin:0 0 18px;letter-spacing:-.015em}
+.bhero .lead{font-size:18px;color:var(--mute);max-width:46ch;margin:0 0 28px}
+.feats{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.feat{background:var(--coal);border:1px solid var(--line);border-radius:16px;padding:22px}
+.feat .ic{width:44px;height:44px;border-radius:12px;border:1px solid var(--gold-lo);display:grid;place-items:center;color:var(--gold-hi);background:var(--ink);margin-bottom:14px}
+.feat .ic svg{width:22px;height:22px}
+.feat h4{font-family:var(--serif);font-size:19px;margin:0 0 6px}
+.feat p{margin:0;color:var(--mute);font-size:15px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.stp{background:var(--coal);border:1px solid var(--line);border-radius:16px;padding:24px}
+.stp .n{width:32px;height:32px;border-radius:50%;background:var(--gold);color:#1a1409;font-weight:800;display:grid;place-items:center;margin-bottom:14px}
+.stp h4{font-family:var(--serif);font-size:19px;margin:0 0 6px}
+.stp p{margin:0;color:var(--mute);font-size:15px}
+.cta{margin-top:48px;border:1px solid var(--gold-lo);border-radius:18px;padding:34px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+  background:linear-gradient(135deg,rgba(201,161,74,.14),rgba(201,161,74,.03))}
+.cta h3{font-family:var(--serif);font-size:28px;margin:0 0 4px}
+.cta .btn{width:auto;min-width:260px}
+footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--mute);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  .bhero{grid-template-columns:1fr;gap:32px}
+  .steps{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr;gap:36px;padding:40px 0 20px}
+  .actions{max-width:none}
+  .book{grid-template-columns:minmax(0,1fr);gap:0}
+  .side{position:sticky;top:auto;bottom:0;z-index:5;margin:28px -22px 0}
+  .side .ticket{border-radius:16px 16px 0 0;padding:14px 22px;box-shadow:0 -10px 30px rgba(0,0,0,.5)}
+  .side .det,.side h3,.side .sub{display:none}
+  .side .tk.tot{border-top:0;padding:0 0 10px}
+}
+@media (max-width:640px){
+  .cta{padding:24px}.cta .btn{width:100%}
+  .two{grid-template-columns:1fr}
+  nav .who{display:none}
+  .brand small{display:none}
+  .bar{gap:8px}
+  nav{flex-wrap:nowrap}
+  nav button{padding:9px 9px;font-size:13px;white-space:nowrap}
+  .wrap{padding:0 16px}
+  .side{margin:28px -16px 0}
+  .facts{grid-template-columns:1fr}
+  .fact+.fact{border-left:0;border-top:1px solid var(--line)}
+  .panelbox{padding:22px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <button class="brand" onclick="home()" aria-label="Kratos Barber Shop, inicio"><span class="pole"></span><span class="t"><b>Kratos</b><small>Barber Shop</small></span></button>
+    <nav id="nav" aria-label="Principal"></nav>
+  </div>
+</header>
+<div class="wrap"><main id="app"></main></div>
+<footer><div class="wrap"><span>Kratos Barber Shop · Reserva tu cita en línea</span><span>Las barberías, barberos y calificaciones son datos de ejemplo. · <a href="#" onclick="go('bizlogin');return false" style="color:var(--gold-hi)">Acceso empresas</a></span></div></footer>
+
+<script>
+const DBK='kratos_db_v2', OLDK='kratos_db_v1', SK='kratos_session_v1', mem={};
+const store={
+  get(k){try{return localStorage.getItem(k)}catch(e){return mem[k]??null}},
+  set(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}},
+  del(k){try{localStorage.removeItem(k)}catch(e){delete mem[k]}}
+};
+const uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-3);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cop=n=>new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(n);
+const $=s=>document.querySelector(s);
+const ini=n=>String(n).split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+
+function mk(id,name,zone,address,open,close,rating,reviews,barbers,services){
+  return {id,name,city:'Bogotá',zone,address,open,close,rating,reviews,
+    barbers:barbers.map((b,i)=>({id:'b'+(i+1),name:b[0],spec:b[1],years:b[2],top:i===0})),services};
+}
+const extra=(k=1)=>{const r=x=>Math.round(x*k/1000)*1000;return[
+  {id:'s5',name:'Mid fade',price:r(38000),min:45},
+  {id:'s6',name:'Taper fade',price:r(38000),min:45},
+  {id:'s7',name:'Low fade',price:r(38000),min:45},
+  {id:'s8',name:'El 7',price:r(40000),min:45},
+  {id:'s9',name:'Mascarilla limpieza facial',price:r(30000),min:30}]};
+const svcs=(k=1)=>{const r=x=>Math.round(x*k/1000)*1000;return[
+  {id:'s1',name:'Corte clásico',price:r(35000),min:40},
+  {id:'s2',name:'Corte y barba',price:r(55000),min:60},
+  {id:'s3',name:'Barba perfilada',price:r(25000),min:30},
+  {id:'s4',name:'Corte infantil',price:r(25000),min:30},
+  ...extra(k)]};
+function seed(){
+  return {users:[],bookings:[],shops:[
+    mk('kratos','Kratos Barber Shop','Chapinero','Cra. 13 #85-20',9,19,4.9,312,
+      [['Andrés Rojas','Degradados y fade',8],['Camilo Díaz','Barba y navaja',5],['Sebastián Mora','Corte clásico',6],['Julio Gaitán','Diseños y líneas',4],['Manuel Rincón','Corte con tijera',7]],svcs(1)),
+    mk('don-julian','Don Julián Barbería','Chapinero Alto','Cl. 63 #9-45',10,20,4.8,187,
+      [['Julián Vega','Corte clásico y afeitado',15],['Mateo Salazar','Corte con tijera',7],['Gustavo Páez','Afeitado con toalla caliente',12],['Leonardo Barrios','Degradados clásicos',5],['Ricardo Mejía','Barba y perfilado',8]],
+      [{id:'s1',name:'Corte con tijera',price:30000,min:45},{id:'s2',name:'Afeitado con toalla caliente',price:30000,min:30},{id:'s3',name:'Corte y barba',price:52000,min:60},...extra(0.9)]),
+    mk('navaja-de-oro','La Navaja de Oro','Usaquén','Cl. 119 #6-30',9,20,4.9,254,
+      [['Mateo Cárdenas','Barba y navaja',10],['Iván Beltrán','Degradados',4],['Sergio Duarte','Corte ejecutivo',8],['Andrés Felipe Gil','Fade y diseños',5],['Mauricio Roa','Corte con tijera',11]],svcs(1.25)),
+    mk('bruto','Bruto Barbershop','Zona T','Cl. 82 #12-18',10,21,4.7,203,
+      [['Felipe Moreno','Fade y diseños',7],['Kevin Prieto','Corte moderno',3],['Dylan Arias','Barba',4],['Juan Pablo Cruz','Degradados',6],['Samuel Carvajal','Colorimetría y texturas',5]],svcs(1.4)),
+    mk('gentlemens','Gentlemen's Club Barber','Cedritos','Cl. 140 #9-50',9,19,4.8,141,
+      [['Santiago Pardo','Corte ejecutivo',9],['Óscar Neira','Afeitado clásico',12],['Gabriel Montoya','Corte con tijera',6],['Álvaro Suárez','Barba y navaja',10],['Diego Camargo','Degradados',4]],svcs(1.1)),
+    mk('taller-barbero','Taller del Barbero','La Candelaria','Cl. 12 #2-45',11,20,4.6,96,
+      [['Esteban Quintero','Cortes creativos',6],['Brayan Torres','Degradados',3],['Yeison Rueda','Fade y diseños',5],['Fabián Cortés','Barba',7],['Orlando Pinzón','Corte clásico',14]],svcs(0.85)),
+    mk('barba-negra','Barba Negra','Teusaquillo','Cra. 24 #39-12',9,18,4.7,118,
+      [['Daniel Ospina','Barbas y perfilado',8],['Hugo Linares','Corte clásico',11],['Camilo Herrera','Degradados',5],['Pedro Vanegas','Afeitado clásico',9],['Jairo Bernal','Corte con tijera',13]],svcs(0.9)),
+    mk('vintage-cut','Vintage Cut','Chicó','Cra. 11 #93-40',10,19,4.9,276,
+      [['Nicolás Ruiz','Pompadour y clásicos',10],['Tomás Ferrer','Corte con tijera',5],['Rafael Ortiz','Barba',6],['Emilio Vargas','Fade y clásicos',8],['Joaquín Mendoza','Afeitado con navaja',7]],svcs(1.5)),
+    mk('el-patron','El Patrón Barbería','Suba','Cl. 145 #91-19',9,20,4.6,165,
+      [['Jhonatan Peña','Fade y diseños',6],['Wilmer Acosta','Corte clásico',9],['Edwin Guzmán','Degradados',5],['Cristóbal Rey','Barba y perfilado',4],['Harold Medina','Corte infantil y clásico',8]],svcs(0.8)),
+    mk('corte-real','Corte Real','Salitre','Av. Cra. 68 #24-60',8,18,4.7,132,
+      [['Alejandro Vargas','Cortes infantiles y clásicos',9],['Cristian Lozano','Degradados',4],['Néstor Villamil','Barba y navaja',10],['Fredy Contreras','Corte ejecutivo',6],['Anderson Parra','Fade y diseños',3]],svcs(0.95))
+  ]};
+}
+const demoUsers=()=>seed().shops.map(sh=>({id:'u-'+sh.id,name:'Admin '+sh.name,email:sh.id+'@barberias.test',pass:'barbero123',role:'business',shopId:sh.id}));
+function addDemo(d){d.users=d.users||[];demoUsers().forEach(u=>{if(!d.users.some(x=>x.email===u.email))d.users.push(u)});return d}
+function load(){
+  try{const r=store.get(DBK);if(r){const d=JSON.parse(r);
+    seed().shops.forEach(bs=>{const sh=(d.shops||[]).find(x=>x.id===bs.id);
+      if(sh){bs.barbers.forEach(b=>{if(!sh.barbers.some(x=>x.id===b.id))sh.barbers.push(b)});
+        bs.services.forEach(v=>{if(!sh.services.some(x=>x.id===v.id))sh.services.push(v)})}});
+    return addDemo(d)}}catch(e){}
+  const base=seed();
+  try{const o=store.get(OLDK);if(o){const d=JSON.parse(o),ids=base.shops.map(s=>s.id);
+    return addDemo({users:d.users||[],bookings:d.bookings||[],shops:[...base.shops,...(d.shops||[]).filter(s=>!ids.includes(s.id))]})}}catch(e){}
+  return addDemo(base);
+}
+let db=load();
+const save=()=>store.set(DBK,JSON.stringify(db));
+save();
+
+const state={view:'welcome',p:{},b:{},next:null,q:'',open:false};
+const me=()=>{const id=store.get(SK);return db.users.find(u=>u.id===id)||null};
+function go(view,p,keep){state.view=view;state.p=p||{};if(!keep)state.b={};render();scrollTo(0,0)}
+function home(){const u=me();go(u?'shops':'welcome')}
+function logout(){store.del(SK);go('welcome')}
+function goShop(id,barberId){state.b=barberId?{barberId}:{};go('shop',{id},true)}
+
+function navHtml(u){
+  const on=v=>state.view===v?'on':'';
+  const emp=`<button class="${on('business')}" onclick="go('business')">Empresas</button>`;
+  if(!u)return `<button class="${on('bizlogin')}" onclick="go('bizlogin')">Acceso empresas</button><button class="${on('login')}" onclick="go('login')">Iniciar sesión</button><button class="${on('register')}" onclick="go('register')">Registrarse</button>`;
+  const links=u.role==='business'
+    ?`<button class="${on('shops')}" onclick="go('shops')">Barberías</button><button class="${on('agenda')}" onclick="go('agenda')">Agenda del día</button><button class="${on('panel')}" onclick="go('panel')">Mi barbería</button>`
+    :`<button class="${on('shops')}" onclick="go('shops')">Barberías</button><button class="${on('mine')}" onclick="go('mine')">Mis citas</button>${emp}`;
+  return `<span class="who"><span class="av" style="width:30px;height:30px;font-size:11px">${esc(ini(u.name))}</span>${esc(u.name.split(' ')[0])}</span>${links}<button onclick="logout()">Salir</button>`;
+}
+
+const I={
+  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>',
+  plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="4"/><path d="M2 21c0-4 3.6-7 8-7M19 8v6M16 11h6"/></svg>',
+  shop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9c0 1.7 1.3 3 3 3s3-1.3 3-3c0 1.7 1.3 3 3 3s3-1.3 3-3c0 1.7 1.3 3 3 3s3-1.3 3-3M9 20v-5h6v5"/></svg>',
+  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
+  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  tag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V3h9l9 9-9 9z"/><circle cx="8" cy="8" r="1.5"/></svg>',
+  card:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>',
+  chart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5L16 9.5"/></svg>',
+  star:'<svg viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></svg>'
+};
+const stars=s=>s.rating?`<span class="star">${I.star}${s.rating.toFixed(1)} <small>(${s.reviews})</small></span>`:`<span class="star"><small>Barbería nueva</small></span>`;
+const hh=h=>`${String(h).padStart(2,'0')}:00`;
+const isOpen=s=>{const d=new Date(),h=d.getHours()+d.getMinutes()/60;return h>=s.open&&h<s.close};
+const openBadge=s=>isOpen(s)?'<span class="dot">Abierto ahora</span>':'<span class="dot off">Cerrado ahora</span>';
+
+const views={};
+
+views.welcome=()=>`
+<section class="hero">
+  <div>
+    <h1>Tu próxima cita, en segundos</h1>
+    <p class="lead">Elige la barbería y el barbero, mira horarios y precios claros y reserva sin llamar a nadie.</p>
+    <div class="actions">
+      <button class="btn primary" onclick="go('login')">${I.user}Iniciar sesión</button>
+      <button class="btn" onclick="go('register')">${I.plus}Registrarse</button>
+      <button class="btn quiet" onclick="go('regshop')">${I.shop}Registrar mi empresa</button>
+    </div>
+  </div>
+  <aside class="ticket" aria-label="Ejemplo de reserva">
+    <h3>Kratos Barber Shop</h3>
+    <div class="sub">Cra. 13 #85-20, Chapinero</div>
+    <div class="tk"><span>Barbero</span><span>Andrés Rojas</span></div>
+    <div class="tk"><span>Corte y barba</span><span>${cop(55000)}</span></div>
+    <div class="tk"><span>Sábado</span><span>10:30 a. m.</span></div>
+    <div class="tk tot"><span>Total</span><span>${cop(55000)}</span></div>
+    <div class="pays"><span class="chip">Efectivo</span><span class="chip">Tarjeta</span><span class="chip">Nequi</span><span class="chip">Daviplata</span><span class="chip">Transferencia</span></div>
+  </aside>
+</section>
+<div class="facts">
+  <div class="fact"><b>${db.shops.length}</b><span>barberías para elegir</span></div>
+  <div class="fact"><b>${db.shops.reduce((a,s)=>a+s.barbers.length,0)}</b><span>barberos con agenda</span></div>
+  <div class="fact"><b>5</b><span>formas de pago</span></div>
+</div>`;
+
+views.login=()=>`
+<div class="formbox">
+  <h2>Iniciar sesión</h2>
+  <p class="muted">Entra para reservar o administrar tu barbería.</p>
+  <div class="panelbox frm" style="margin-top:22px">
+    <label for="em" style="margin-top:0">Correo</label><input id="em" type="email" autocomplete="email" inputmode="email" required>
+    <label for="pw">Contraseña</label><input id="pw" type="password" autocomplete="current-password" required>
+    <div class="err" id="err" role="alert"></div>
+    <div style="margin-top:24px"><button class="btn primary" type="button" onclick="doLogin()">Iniciar sesión</button></div>
+  </div>
+  <div class="swap">¿Aún no tienes cuenta? <button onclick="go('register')">Regístrate</button></div>
+  <div class="swap" style="margin-top:8px">¿Tienes una barbería? <button onclick="go('bizlogin')">Acceso empresas</button></div>
+</div>`;
+
+views.bizlogin=()=>{
+  const u=me();if(u&&u.role==='business')return views.panel();
+  return `
+<div class="formbox">
+  <h2>Acceso para empresas</h2>
+  <p class="muted">Entra con la cuenta de tu barbería para ver tus reservas.</p>
+  <div class="panelbox frm" style="margin-top:22px">
+    <label for="em" style="margin-top:0">Correo de la empresa</label><input id="em" type="email" autocomplete="email" inputmode="email" required>
+    <label for="pw">Contraseña</label><input id="pw" type="password" autocomplete="current-password" required>
+    <div class="err" id="err" role="alert"></div>
+    <div style="margin-top:24px"><button class="btn primary" type="button" onclick="doBizLogin()">${I.shop}Entrar a mi barbería</button></div>
+  </div>
+  <details class="demo" open>
+    <summary>Cuentas de ejemplo (toca una para usarla)</summary>
+    <div class="demolist">${demoUsers().map(d=>{const sh=db.shops.find(x=>x.id===d.shopId);return `<button type="button" onclick="fillDemo('${d.email}')"><b>${esc(sh?.name||d.shopId)}</b><span>${esc(d.email)}</span><span>Contraseña: ${esc(d.pass)}</span></button>`}).join('')}</div>
+  </details>
+  <div class="swap">¿Aún no registras tu barbería? <button onclick="go('regshop')">Registra tu empresa</button></div>
+  <div class="swap" style="margin-top:8px">¿Eres cliente? <button onclick="go('login')">Inicia sesión aquí</button></div>
+  <div class="swap" style="margin-top:8px">¿Quieres saber qué incluye? <button onclick="go('business')">Conoce Kratos para empresas</button></div>
+</div>`};
+
+views.register=()=>`
+<div class="formbox">
+  <h2>Crear cuenta</h2>
+  <p class="muted">Reserva en tu barbería favorita en pocos pasos.</p>
+  <div class="panelbox frm" style="margin-top:22px">
+    <label for="nm" style="margin-top:0">Nombre completo</label><input id="nm" autocomplete="name" required>
+    <label for="em">Correo</label><input id="em" type="email" autocomplete="email" inputmode="email" required>
+    <label for="pw">Contraseña</label><input id="pw" type="password" autocomplete="new-password" minlength="6" required>
+    <div class="hint">Mínimo 6 caracteres.</div>
+    <div class="err" id="err" role="alert"></div>
+    <div style="margin-top:24px"><button class="btn primary" type="button" onclick="doRegister()">Crear cuenta</button></div>
+  </div>
+  <div class="swap">¿Ya tienes cuenta? <button onclick="go('login')">Inicia sesión</button></div>
+  <div class="swap" style="margin-top:8px">¿Tienes una barbería? <button onclick="go('regshop')">Registra tu empresa</button></div>
+</div>`;
+
+views.regshop=()=>{
+  const hrs=sel=>Array.from({length:24},(_,h)=>`<option value="${h}" ${h===sel?'selected':''}>${hh(h)}</option>`).join('');
+  return `
+<div class="formbox wide">
+  <button class="back" onclick="go('welcome')">← Volver</button>
+  <h2>Registrar mi empresa</h2>
+  <p class="muted">Crea tu barbería y empieza a recibir reservas.</p>
+  <div class="panelbox frm" style="margin-top:22px">
+    <div class="two">
+      <div><label for="nm" style="margin-top:0">Tu nombre</label><input id="nm" autocomplete="name" required></div>
+      <div><label for="em" style="margin-top:0">Correo</label><input id="em" type="email" autocomplete="email" inputmode="email" required></div>
+    </div>
+    <label for="pw">Contraseña</label><input id="pw" type="password" autocomplete="new-password" minlength="6" required>
+    <label for="sn">Nombre de la barbería</label><input id="sn" required>
+    <div class="two">
+      <div><label for="ci">Ciudad</label><input id="ci" value="Bogotá" required></div>
+      <div><label for="ad">Dirección</label><input id="ad" autocomplete="street-address" required></div>
+    </div>
+    <div class="two">
+      <div><label for="op">Abre</label><select id="op">${hrs(9)}</select></div>
+      <div><label for="cl">Cierra</label><select id="cl">${hrs(19)}</select></div>
+    </div>
+    <label for="br">Barberos</label><input id="br" placeholder="Andrés, Camilo, Sebastián" required>
+    <div class="hint">Sepáralos con comas.</div>
+    <label for="sv">Servicios</label>
+    <textarea id="sv" required>Corte clásico, 35000, 40
+Corte y barba, 55000, 60
+Barba perfilada, 25000, 30</textarea>
+    <div class="hint">Un servicio por línea: nombre, precio en pesos, duración en minutos.</div>
+    <div class="err" id="err" role="alert"></div>
+    <div style="margin-top:24px"><button class="btn primary" type="button" onclick="doRegShop()">${I.shop}Registrar mi empresa</button></div>
+  </div>
+</div>`};
+
+views.business=()=>{
+  const u=me(),isBiz=u&&u.role==='business';
+  const feats=[
+    [I.cal,'Agenda por barbero','Cada barbero tiene sus propios horarios. Si un turno se ocupa, deja de aparecer para los demás clientes.'],
+    [I.shield,'Cero dobles reservas','El sistema tiene en cuenta cuánto dura cada servicio y bloquea el tiempo que se cruza con otra cita.'],
+    [I.tag,'Servicios y precios claros','Publica tus servicios con precio y duración. El cliente sabe cuánto paga antes de reservar.'],
+    [I.card,'Todas las formas de pago','El cliente indica si pagará con efectivo, tarjeta, Nequi, Daviplata o transferencia.'],
+    [I.chart,'Panel de tu barbería','Mira las citas por atender, tus ventas reservadas y marca cada cita como atendida o cancelada.'],
+    [I.search,'Aparece en la lista de barberías','Los clientes te encuentran por nombre, zona o barbero, y ven si estás abierto ahora.']
+  ];
+  return `
+<section class="bhero">
+  <div>
+    <h1>Llena tu agenda sin contestar mensajes</h1>
+    <p class="lead">Kratos le da a tu barbería una página de reservas lista para usar: tus barberos, tus servicios y tus horarios, disponibles para tus clientes a cualquier hora.</p>
+    <div class="actions">
+      ${isBiz?`<button class="btn primary" onclick="go('panel')">${I.shop}Ir a mi barbería</button>`
+             :`<button class="btn primary" onclick="go('regshop')">${I.shop}Registrar mi empresa</button>`}
+      ${u?'':`<button class="btn quiet" onclick="go('bizlogin')">${I.user}Acceso empresas</button>`}
+    </div>
+  </div>
+  <aside class="ticket" aria-label="Ejemplo del panel">
+    <h3>Tu barbería hoy</h3>
+    <div class="sub">Así verás tus citas</div>
+    <div class="tk"><span>10:00 a. m. · Corte clásico</span><span>Confirmada</span></div>
+    <div class="tk"><span>11:00 a. m. · Corte y barba</span><span>Confirmada</span></div>
+    <div class="tk"><span>2:30 p. m. · Barba perfilada</span><span>Atendida</span></div>
+    <div class="tk tot"><span>Ventas reservadas</span><span>${cop(115000)}</span></div>
+  </aside>
+</section>
+
+<div class="sec"><h3>Lo que incluye</h3></div>
+<div class="feats">${feats.map(f=>`<div class="feat"><div class="ic">${f[0]}</div><h4>${f[1]}</h4><p>${f[2]}</p></div>`).join('')}</div>
+
+<div class="sec"><h3>Empieza en tres pasos</h3></div>
+<div class="steps">
+  <div class="stp"><div class="n">1</div><h4>Registra tu barbería</h4><p>Escribe el nombre, la dirección y el horario de atención.</p></div>
+  <div class="stp"><div class="n">2</div><h4>Agrega barberos y servicios</h4><p>Indica quiénes atienden y qué ofreces, con precio y duración.</p></div>
+  <div class="stp"><div class="n">3</div><h4>Recibe reservas</h4><p>Tus clientes eligen barbero, día y hora, y tú ves cada cita en tu panel.</p></div>
+</div>
+
+<div class="cta">
+  <div><h3>${isBiz?'Revisa tus citas':'Pon tu barbería en Kratos'}</h3><div class="muted">${isBiz?'Entra a tu panel para ver quién viene hoy.':'El registro toma unos minutos.'}</div></div>
+  ${isBiz?`<button class="btn primary" onclick="go('panel')">Ir a mi barbería</button>`:`<button class="btn primary" onclick="go('regshop')">${I.shop}Registrar mi empresa</button>`}
+</div>`;
+};
+
+function shopCard(s){
+  const min=Math.min(...s.services.map(x=>x.price));
+  return `<button class="card link" onclick="goShop('${s.id}')">
+    <div class="ch"><span class="crest">${esc(ini(s.name.replace(/^(La|El|Don)\s/,'')))}</span>
+      <div><h3>${esc(s.name)}</h3><div class="muted" style="font-size:14px">${esc(s.zone||s.city)} · ${esc(s.address)}</div></div></div>
+    <div class="meta">${stars(s)}${openBadge(s)}</div>
+    <div class="cfoot"><span class="stack">${s.barbers.slice(0,4).map(b=>`<span class="av">${esc(ini(b.name))}</span>`).join('')}</span>
+      <span class="muted">Desde <b>${cop(min)}</b></span></div>
+  </button>`;
+}
+function filtered(){
+  const q=state.q.trim().toLowerCase();
+  return db.shops.filter(s=>(!q||(s.name+' '+(s.zone||'')+' '+s.address+' '+s.barbers.map(b=>b.name).join(' ')).toLowerCase().includes(q))&&(!state.open||isOpen(s)));
+}
+function drawShops(){
+  const l=filtered(),g=$('#shopgrid');if(!g)return;
+  g.innerHTML=l.length?l.map(shopCard).join(''):'<div class="empty" style="grid-column:1/-1">No encontramos barberías con ese filtro. Prueba con otro nombre o zona.</div>';
+  const c=$('#count');if(c)c.textContent=l.length+(l.length===1?' barbería':' barberías');
+}
+function setQ(v){state.q=v;drawShops()}
+function toggleOpen(){state.open=!state.open;const b=$('#tgopen');if(b)b.classList.toggle('on',state.open);drawShops()}
+
+views.shops=()=>{
+  const tops=db.shops.flatMap(s=>s.barbers.filter(b=>b.top).map(b=>({...b,shop:s})));
+  return `
+<h2>Elige tu barbería</h2>
+<p class="muted">Compara zonas, precios y horarios, y reserva con el barbero que prefieras.</p>
+<div class="tools">
+  <div class="search">${I.search}<input id="q" type="search" placeholder="Buscar por nombre, zona o barbero" value="${esc(state.q)}" oninput="setQ(this.value)" aria-label="Buscar barberías"></div>
+  <button id="tgopen" class="tg ${state.open?'on':''}" onclick="toggleOpen()">Abiertas ahora</button>
+</div>
+<div class="sec"><h3>Barberos destacados</h3></div>
+<div class="hs">${tops.map(b=>`<button class="bc" onclick="goShop('${b.shop.id}','${b.id}')">
+  <span class="av lg">${esc(ini(b.name))}</span><b>${esc(b.name)}</b><span>${esc(b.shop.name)}</span><span class="sp">${esc(b.spec)}</span><span>${b.years} años de experiencia</span></button>`).join('')}</div>
+<div class="sec"><h3>Barberías</h3><span class="muted" id="count"></span></div>
+<div class="grid" id="shopgrid"></div>`;
+};
+
+const toMin=t=>{const[h,m]=t.split(':').map(Number);return h*60+m};
+const toTime=m=>`${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;
+const label12=t=>{let[h,m]=t.split(':').map(Number);const s=h>=12?'p. m.':'a. m.';h=h%12||12;return `${h}:${String(m).padStart(2,'0')} ${s}`};
+const ymd=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const todayStr=()=>ymd(new Date());
+const parseD=s=>{const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const fmtDate=d=>parseD(d).toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long'});
+function freeSlots(shop,b){
+  const svc=shop.services.find(s=>s.id===b.serviceId),dur=svc?svc.min:30,out=[];
+  const busy=db.bookings.filter(x=>x.shopId===shop.id&&x.barberId===b.barberId&&x.date===b.date&&x.status!=='cancelada')
+    .map(x=>{const sv=shop.services.find(s=>s.id===x.serviceId),st=toMin(x.time);return[st,st+(sv?sv.min:30)]});
+  const now=new Date(),nowMin=now.getHours()*60+now.getMinutes(),isToday=b.date===todayStr();
+  for(let m=shop.open*60;m+dur<=shop.close*60;m+=30){
+    out.push({t:toTime(m),ok:!busy.some(([s,e])=>m<e&&s<m+dur)&&!(isToday&&m<=nowMin)});
+  }
+  return out;
+}
+const PAY=['Efectivo','Tarjeta','Nequi','Daviplata','Transferencia'];
+
+views.shop=()=>{
+  const shop=db.shops.find(s=>s.id===state.p.id);if(!shop)return views.shops();
+  const b=state.b;if(!b.date)b.date=todayStr();
+  const svc=shop.services.find(s=>s.id===b.serviceId),barber=shop.barbers.find(x=>x.id===b.barberId);
+  const slots=b.barberId?freeSlots(shop,b):[];
+  const days=Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()+i);return d});
+  return `
+<button class="back" onclick="go('shops')">← Barberías</button>
+<div class="shophead">
+  <span class="crest big">${esc(ini(shop.name.replace(/^(La|El|Don)\s/,'')))}</span>
+  <div><h2 style="margin-bottom:4px">${esc(shop.name)}</h2>
+  <div class="muted">${esc(shop.address)} · ${esc(shop.zone||shop.city)}</div>
+  <div class="meta" style="justify-content:flex-start;gap:16px;margin-top:6px">${stars(shop)}${openBadge(shop)}<span class="muted" style="font-size:14px">${hh(shop.open)} a ${hh(shop.close)}</span></div></div>
+</div>
+<div class="book">
+<div>
+  <div class="sh"><span class="n">1</span><h3>Elige tu barbero</h3></div>
+  <div class="bgrid">${shop.barbers.map(x=>`<button class="bk ${b.barberId===x.id?'on':''}" onclick="pick('barberId','${x.id}')">
+    <span class="av">${esc(ini(x.name))}</span><span><b>${esc(x.name)}</b><small>${esc(x.spec||'Barbero')}${x.years?' · '+x.years+' años':''}</small>${x.top?'<em>Barbero destacado</em>':''}</span></button>`).join('')}</div>
+
+  <div class="sh"><span class="n">2</span><h3>Elige el servicio</h3></div>
+  <div class="list">${shop.services.map(x=>`<button class="opt svc ${b.serviceId===x.id?'on':''}" onclick="pick('serviceId','${x.id}')">
+    <span>${esc(x.name)}<small>${x.min} min</small></span><span class="pr">${cop(x.price)}</span></button>`).join('')}</div>
+
+  <div class="sh"><span class="n">3</span><h3>Elige día y hora</h3></div>
+  <div class="days">${days.map((d,i)=>{const v=ymd(d);return `<button class="day ${b.date===v?'on':''}" onclick="pick('date','${v}')"><small>${i===0?'Hoy':i===1?'Mañana':d.toLocaleDateString('es-CO',{weekday:'short'}).replace('.','')}</small><b>${d.getDate()}</b><small>${d.toLocaleDateString('es-CO',{month:'short'}).replace('.','')}</small></button>`}).join('')}</div>
+  <div style="margin:12px 0 18px"><label for="dt" style="margin:0 0 6px">Otra fecha</label>
+  <input id="dt" type="date" min="${todayStr()}" value="${b.date}" onchange="pick('date',this.value)" style="max-width:220px"></div>
+  ${!b.barberId?'<div class="muted">Elige un barbero para ver sus horarios.</div>'
+    :slots.some(s=>s.ok)?`<div class="slots">${slots.map(s=>`<button class="opt ${b.time===s.t?'on':''}" ${s.ok?'':'disabled'} onclick="pick('time','${s.t}')">${label12(s.t)}</button>`).join('')}</div>`
+    :'<div class="empty">No quedan horarios este día. Prueba con otra fecha.</div>'}
+
+  <div class="sh"><span class="n">4</span><h3>¿Cómo vas a pagar?</h3></div>
+  <div class="opts">${PAY.map(x=>`<button class="opt ${b.pay===x?'on':''}" onclick="pick('pay','${x}')">${x}</button>`).join('')}</div>
+</div>
+<aside class="side"><div class="ticket">
+  <h3>Tu cita</h3><div class="sub">${esc(shop.name)}</div>
+  <div class="det">
+    <div class="tk"><span>Barbero</span><span>${barber?esc(barber.name):'Sin elegir'}</span></div>
+    <div class="tk"><span>Servicio</span><span>${svc?esc(svc.name):'Sin elegir'}</span></div>
+    <div class="tk"><span>Día</span><span>${b.date?fmtDate(b.date):'—'}</span></div>
+    <div class="tk"><span>Hora</span><span>${b.time?label12(b.time):'Sin elegir'}</span></div>
+    <div class="tk"><span>Pago</span><span>${b.pay||'Sin elegir'}</span></div>
+  </div>
+  <div class="tk tot"><span>Total</span><span>${svc?cop(svc.price):'—'}</span></div>
+  <div class="err" id="err" role="alert"></div>
+  <div style="margin-top:14px"><button class="btn primary" onclick="book('${shop.id}')">Confirmar cita</button></div>
+</div></aside>
+</div>`;
+};
+
+views.done=()=>{
+  const bk=db.bookings.find(x=>x.id===state.p.id);if(!bk)return views.mine();
+  const shop=db.shops.find(s=>s.id===bk.shopId),barber=shop.barbers.find(x=>x.id===bk.barberId),svc=shop.services.find(x=>x.id===bk.serviceId);
+  return `
+<div class="done">
+  <div class="check">${I.ok}</div>
+  <h2>Cita confirmada</h2>
+  <p class="muted">Te esperamos en ${esc(shop.name)}.</p>
+  <div class="ticket" style="text-align:left;margin:24px 0">
+    <div class="tk" style="border-top:0"><span>Barbero</span><span>${esc(barber?.name)}</span></div>
+    <div class="tk"><span>Servicio</span><span>${esc(svc?.name)}</span></div>
+    <div class="tk"><span>Fecha</span><span>${fmtDate(bk.date)}</span></div>
+    <div class="tk"><span>Hora</span><span>${label12(bk.time)}</span></div>
+    <div class="tk"><span>Pago</span><span>${esc(bk.pay)}</span></div>
+    <div class="tk"><span>Dirección</span><span>${esc(shop.address)}</span></div>
+    <div class="tk tot"><span>Total</span><span>${cop(svc?.price||0)}</span></div>
+  </div>
+  <button class="btn primary" onclick="go('mine')">Ver mis citas</button>
+</div>`;
+};
+
+const sortBk=a=>a.sort((x,y)=>(x.date+x.time).localeCompare(y.date+y.time));
+
+views.mine=()=>{
+  const u=me();if(!u)return views.login();
+  const list=sortBk(db.bookings.filter(x=>x.userId===u.id));
+  return `
+<h2>Mis citas</h2>
+<p class="muted">Aquí ves tus reservas y puedes cancelarlas.</p>
+${list.length?`<div class="grid" style="margin-top:24px">${list.map(bk=>{
+  const shop=db.shops.find(s=>s.id===bk.shopId),barber=shop?.barbers.find(x=>x.id===bk.barberId),svc=shop?.services.find(x=>x.id===bk.serviceId);
+  return `<div class="card" style="display:grid;gap:10px">
+    <div class="row2"><h3>${esc(shop?.name)}</h3><span class="status ${bk.status}">${bk.status}</span></div>
+    <div>${esc(svc?.name)} con ${esc(barber?.name)}</div>
+    <div class="muted">${fmtDate(bk.date)} · ${label12(bk.time)}</div>
+    <div class="muted">${cop(svc?.price||0)} · ${esc(bk.pay)}</div>
+    ${bk.status==='confirmada'?`<div class="acts"><button class="btn quiet small" onclick="setStatus('${bk.id}','cancelada')">Cancelar cita</button></div>`:''}
+  </div>`}).join('')}</div>`
+  :`<div class="empty" style="margin-top:24px">Todavía no tienes citas.<div style="margin-top:16px"><button class="btn primary small" onclick="go('shops')">Reservar una cita</button></div></div>`}`;
+};
+
+state.pf={tab:'hoy',barberId:'all'};
+function pfTab(t){state.pf.tab=t;render()}
+function pfBarber(id){state.pf.barberId=id;render()}
+
+views.panel=()=>{
+  const u=me();if(!u||u.role!=='business')return views.bizlogin();
+  const shop=db.shops.find(s=>s.id===u.shopId);if(!shop)return '<div class="empty">No encontramos tu barbería.</div>';
+  const f=state.pf.barberId==='all'||shop.barbers.some(x=>x.id===state.pf.barberId)?state.pf.barberId:(state.pf.barberId='all');
+  const today=todayStr();
+  const svcOf=x=>shop.services.find(v=>v.id===x.serviceId);
+  const mine=db.bookings.filter(x=>x.shopId===shop.id&&(f==='all'||x.barberId===f));
+  const tabs=[
+    ['hoy','Hoy',x=>x.date===today],
+    ['proximas','Próximas',x=>x.date>today&&x.status!=='cancelada'],
+    ['pendientes','Por atender',x=>x.status==='confirmada'],
+    ['historial','Historial',x=>x.status!=='confirmada'||x.date<today],
+    ['todas','Todas',()=>true]
+  ];
+  const tab=tabs.find(t=>t[0]===state.pf.tab)||tabs[0];
+  const list=mine.filter(tab[2]);
+  sortBk(list);if(tab[0]==='historial')list.reverse();
+  const groups=[];list.forEach(x=>{let g=groups[groups.length-1];if(!g||g.d!==x.date){g={d:x.date,l:[]};groups.push(g)}g.l.push(x)});
+  const price=x=>svcOf(x)?.price||0;
+  const all=db.bookings.filter(x=>x.shopId===shop.id);
+  const rev=all.filter(x=>x.status!=='cancelada').reduce((a,x)=>a+price(x),0);
+  const todayN=all.filter(x=>x.date===today&&x.status!=='cancelada').length;
+  const pendN=all.filter(x=>x.status==='confirmada').length;
+  const card=bk=>{
+    const barber=shop.barbers.find(x=>x.id===bk.barberId),svc=svcOf(bk),cl=db.users.find(x=>x.id===bk.userId);
+    return `<div class="card" style="display:grid;gap:10px">
+    <div class="row2"><h3>${esc(cl?.name||'Cliente')}</h3><span class="status ${bk.status}">${bk.status}</span></div>
+    <div>${esc(svc?.name||'Servicio')} con ${esc(barber?.name||'Barbero')}</div>
+    <div class="muted">${label12(bk.time)} · ${svc?svc.min+' min · ':''}${cop(price(bk))} · ${esc(bk.pay)}</div>
+    ${cl?.email?`<div class="muted" style="font-size:14px">${esc(cl.email)}</div>`:''}
+    ${bk.status==='confirmada'?`<div class="acts"><button class="btn primary small" onclick="setStatus('${bk.id}','completada')">Marcar atendida</button><button class="btn quiet small" onclick="setStatus('${bk.id}','cancelada')">Cancelar</button></div>`:''}
+  </div>`};
+  return `
+<div class="shophead"><span class="crest big">${esc(ini(shop.name))}</span>
+  <div><h2 style="margin-bottom:4px">${esc(shop.name)}</h2><div class="muted">${esc(shop.address)} · ${esc(shop.city)} · ${hh(shop.open)} a ${hh(shop.close)}</div></div></div>
+<div class="stats">
+  <div class="stat"><b>${todayN}</b><span>Citas hoy</span></div>
+  <div class="stat"><b>${pendN}</b><span>Citas por atender</span></div>
+  <div class="stat"><b>${all.length}</b><span>Reservas en total</span></div>
+  <div class="stat"><b>${cop(rev)}</b><span>Ventas reservadas</span></div>
+</div>
+<div class="sec"><h3>Tus reservas</h3><button class="btn quiet small" onclick="go('agenda')">${I.cal}Agenda del día</button></div>
+<div class="opts" style="margin-bottom:10px">${tabs.map(t=>`<button class="opt ${tab[0]===t[0]?'on':''}" onclick="pfTab('${t[0]}')">${t[1]} (${mine.filter(t[2]).length})</button>`).join('')}</div>
+<div class="muted" style="font-size:14px;margin:14px 0 8px">Barbero</div>
+<div class="opts" style="margin-bottom:6px">
+  <button class="opt ${f==='all'?'on':''}" onclick="pfBarber('all')">Todos</button>
+  ${shop.barbers.map(x=>`<button class="opt ${f===x.id?'on':''}" onclick="pfBarber('${x.id}')">${esc(x.name.split(' ')[0])}</button>`).join('')}
+</div>
+${groups.length?groups.map(g=>`<div class="sec" style="margin:30px 0 14px"><h3 style="font-size:20px">${esc(fmtDate(g.d).replace(/^./,c=>c.toUpperCase()))}${g.d===today?' · Hoy':''}</h3><span class="muted">${g.l.length} ${g.l.length===1?'cita':'citas'}</span></div><div class="grid">${g.l.map(card).join('')}</div>`).join('')
+:`<div class="empty">${all.length?'No hay reservas en esta vista.':'Aún no hay reservas. Cuando un cliente reserve, aparecerá aquí.'}</div>`}`;
+};
+
+state.ag={date:null,barberId:'all'};
+const agDate=()=>state.ag.date||(state.ag.date=todayStr());
+function agShift(n){const d=parseD(agDate());d.setDate(d.getDate()+n);state.ag.date=ymd(d);render()}
+function agSet(v){if(v){state.ag.date=v;render()}}
+function agToday(){state.ag.date=todayStr();render()}
+function agBarber(id){state.ag.barberId=id;render()}
+
+views.agenda=()=>{
+  const u=me();if(!u||u.role!=='business')return views.login();
+  const shop=db.shops.find(s=>s.id===u.shopId);if(!shop)return '<div class="empty">No encontramos tu barbería.</div>';
+  if(state.ag.barberId!=='all'&&!shop.barbers.some(b=>b.id===state.ag.barberId))state.ag.barberId='all';
+  const date=agDate(),isToday=date===todayStr(),f=state.ag.barberId;
+  const svcOf=x=>shop.services.find(v=>v.id===x.serviceId);
+  const dur=x=>svcOf(x)?.min||30, price=x=>svcOf(x)?.price||0;
+  const dayAll=sortBk(db.bookings.filter(x=>x.shopId===shop.id&&x.date===date));
+  const cnt=id=>dayAll.filter(x=>x.status!=='cancelada'&&(id==='all'||x.barberId===id)).length;
+  const list=dayAll.filter(x=>f==='all'||x.barberId===f);
+  const live=list.filter(x=>x.status!=='cancelada');
+  const pend=list.filter(x=>x.status==='confirmada').length, done=list.filter(x=>x.status==='completada').length;
+  const income=live.reduce((a,x)=>a+price(x),0);
+  const now=new Date(),nowMin=now.getHours()*60+now.getMinutes();
+  const isNow=x=>isToday&&x.status==='confirmada'&&toMin(x.time)<=nowMin&&nowMin<toMin(x.time)+dur(x);
+  const nextBk=isToday?list.find(x=>x.status==='confirmada'&&toMin(x.time)>nowMin):null;
+  const title=fmtDate(date).replace(/^./,c=>c.toUpperCase());
+  return `
+<div class="shophead"><span class="crest big">${esc(ini(shop.name))}</span>
+  <div><h2 style="margin-bottom:4px">Agenda del día</h2><div class="muted">${esc(shop.name)} · ${hh(shop.open)} a ${hh(shop.close)}</div></div></div>
+
+<div class="agbar">
+  <button class="btn quiet small" onclick="agShift(-1)" aria-label="Día anterior">← Anterior</button>
+  <button class="btn ${isToday?'primary':'quiet'} small" onclick="agToday()">Hoy</button>
+  <button class="btn quiet small" onclick="agShift(1)" aria-label="Día siguiente">Siguiente →</button>
+  <input id="agd" type="date" value="${date}" onchange="agSet(this.value)" aria-label="Elegir fecha">
+</div>
+
+<div class="sec" style="margin-top:28px"><h3>${esc(title)}</h3><span class="muted">${live.length} ${live.length===1?'cita':'citas'}</span></div>
+
+<div class="opts" style="margin-bottom:6px">
+  <button class="opt ${f==='all'?'on':''}" onclick="agBarber('all')">Todos (${cnt('all')})</button>
+  ${shop.barbers.map(b=>`<button class="opt ${f===b.id?'on':''}" onclick="agBarber('${b.id}')">${esc(b.name.split(' ')[0])} (${cnt(b.id)})</button>`).join('')}
+</div>
+
+<div class="stats">
+  <div class="stat"><b>${pend}</b><span>Por atender</span></div>
+  <div class="stat"><b>${done}</b><span>Atendidas</span></div>
+  <div class="stat"><b>${cop(income)}</b><span>Ventas del día</span></div>
+  <div class="stat"><b>${nextBk?label12(nextBk.time):'—'}</b><span>${isToday?'Próxima cita':'Primera cita'}</span></div>
+</div>
+
+<div class="sec"><h3>Citas</h3></div>
+${list.length?`<div class="aglist">${list.map(x=>{
+  const barber=shop.barbers.find(b=>b.id===x.barberId),cl=db.users.find(c=>c.id===x.userId),sv=svcOf(x);
+  const end=toTime(toMin(x.time)+dur(x)),now_=isNow(x);
+  return `<div class="agr ${now_?'now':''} ${x.status==='cancelada'?'off':''}">
+    <div class="agt"><b>${label12(x.time)}</b><small>hasta ${label12(end)}</small></div>
+    <div class="agm">
+      <div class="row2"><h3>${esc(cl?.name||'Cliente')}</h3><span class="status ${x.status}">${x.status}</span></div>
+      ${now_?'<span class="tag">En curso</span>':(nextBk&&nextBk.id===x.id?'<span class="tag next">Siguiente</span>':'')}
+      <div>${esc(sv?.name||'Servicio')} · ${dur(x)} min</div>
+      <div class="muted">${f==='all'?esc(barber?.name||'Barbero')+' · ':''}${esc(x.pay)} · ${cop(price(x))}${cl?.email?' · '+esc(cl.email):''}</div>
+      ${x.status==='confirmada'?`<div class="acts"><button class="btn primary small" onclick="setStatus('${x.id}','completada')">Marcar atendida</button><button class="btn quiet small" onclick="setStatus('${x.id}','cancelada')">Cancelar</button></div>`:''}
+    </div></div>`}).join('')}</div>`
+:`<div class="empty">No hay citas para este día${f==='all'?'':' con este barbero'}.</div>`}`;
+};
+
+const showErr=m=>{const e=$('#err');if(e)e.textContent=m};
+const val=id=>($('#'+id)?.value||'').trim();
+
+function doLogin(){
+  const email=val('em').toLowerCase(),pw=$('#pw').value;
+  const u=db.users.find(x=>x.email===email&&x.pass===pw);
+  if(!u)return showErr('El correo o la contraseña no coinciden. Revisa los datos e inténtalo otra vez.');
+  store.set(SK,u.id);
+  if(u.role==='business'){state.next=null;go('panel');return}
+  if(state.next){const n=state.next;state.next=null;go(n.view,n.p,true);return}
+  home();
+}
+function fillDemo(email){
+  const d=demoUsers().find(x=>x.email===email);if(!d)return;
+  $('#em').value=d.email;$('#pw').value=d.pass;showErr('');
+}
+function doBizLogin(){
+  const email=val('em').toLowerCase(),pw=$('#pw').value;
+  const u=db.users.find(x=>x.email===email&&x.pass===pw);
+  if(!u)return showErr('El correo o la contraseña no coinciden. Revisa los datos e inténtalo otra vez.');
+  if(u.role!=='business')return showErr('Esta cuenta es de cliente, no de empresa. Entra por "Iniciar sesión" para ver tus citas.');
+  store.set(SK,u.id);go('panel');
+}
+function doRegister(){
+  const name=val('nm'),email=val('em').toLowerCase(),pw=$('#pw').value;
+  if(!name||!/^\S+@\S+\.\S+$/.test(email))return showErr('Escribe tu nombre y un correo válido.');
+  if(pw.length<6)return showErr('La contraseña debe tener al menos 6 caracteres.');
+  if(db.users.some(x=>x.email===email))return showErr('Ese correo ya tiene una cuenta. Inicia sesión.');
+  const u={id:uid(),name,email,pass:pw,role:'client'};
+  db.users.push(u);save();store.set(SK,u.id);
+  if(state.next){const n=state.next;state.next=null;go(n.view,n.p,true);return}
+  go('shops');
+}
+function doRegShop(){
+  const name=val('nm'),email=val('em').toLowerCase(),pw=$('#pw').value,sn=val('sn'),ci=val('ci'),ad=val('ad');
+  const open=+$('#op').value,close=+$('#cl').value;
+  const barbers=val('br').split(',').map(x=>x.trim()).filter(Boolean).map((n,i)=>({id:'b'+(i+1),name:n,spec:'Barbero',years:0}));
+  const services=$('#sv').value.split('
+').map(l=>l.split(',').map(x=>x.trim())).filter(a=>a[0]).map((a,i)=>({id:'s'+(i+1),name:a[0],price:parseInt((a[1]||'').replace(/\D/g,''),10),min:parseInt(a[2],10)}));
+  if(!name||!/^\S+@\S+\.\S+$/.test(email))return showErr('Escribe tu nombre y un correo válido.');
+  if(pw.length<6)return showErr('La contraseña debe tener al menos 6 caracteres.');
+  if(db.users.some(x=>x.email===email))return showErr('Ese correo ya tiene una cuenta. Inicia sesión.');
+  if(!sn||!ci||!ad)return showErr('Completa el nombre, la ciudad y la dirección de la barbería.');
+  if(close<=open)return showErr('La hora de cierre debe ser después de la de apertura.');
+  if(!barbers.length)return showErr('Agrega al menos un barbero.');
+  if(!services.length||services.some(s=>!(s.price>0)||!(s.min>0)))return showErr('Cada servicio necesita nombre, precio y duración. Ejemplo: Corte clásico, 35000, 40');
+  const shopId=uid();
+  db.shops.push({id:shopId,name:sn,city:ci,zone:ci,address:ad,open,close,barbers,services});
+  const u={id:uid(),name,email,pass:pw,role:'business',shopId};
+  db.users.push(u);save();store.set(SK,u.id);go('panel');
+}
+function pick(k,v){
+  state.b[k]=v;
+  if(k==='serviceId'||k==='date'||k==='barberId')state.b.time=null;
+  render();
+}
+function book(shopId){
+  const b=state.b,shop=db.shops.find(s=>s.id===shopId),u=me();
+  if(!b.barberId)return showErr('Elige un barbero.');
+  if(!b.serviceId)return showErr('Elige un servicio.');
+  if(!b.time)return showErr('Elige una hora.');
+  if(!b.pay)return showErr('Elige cómo vas a pagar.');
+  if(!u){state.next={view:'shop',p:{id:shopId}};go('login',{},true);return}
+  if(u.role==='business')return showErr('Estás con una cuenta de empresa. Para reservar, entra con una cuenta de cliente.');
+  if(!freeSlots(shop,b).find(s=>s.t===b.time&&s.ok))return showErr('Ese horario ya no está libre. Elige otro.');
+  const bk={id:uid(),shopId,barberId:b.barberId,serviceId:b.serviceId,date:b.date,time:b.time,pay:b.pay,userId:u.id,status:'confirmada'};
+  db.bookings.push(bk);save();go('done',{id:bk.id});
+}
+function setStatus(id,st){
+  const bk=db.bookings.find(x=>x.id===id);if(!bk)return;
+  if(st==='cancelada'&&!confirm('¿Seguro que quieres cancelar esta cita?'))return;
+  bk.status=st;save();render();
+}
+
+function render(){
+  const y=window.scrollY,u=me();
+  $('#nav').innerHTML=navHtml(u);
+  $('#app').innerHTML=(views[state.view]||views.welcome)();
+  if(state.view==='shops')drawShops();
+  window.scrollTo(0,y);
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target.matches('.frm input')){e.preventDefault();e.target.closest('.frm').querySelector('.btn.primary').click()}
+});
+window.addEventListener('storage',e=>{if(e.key===DBK){db=load();render()}});
+setInterval(()=>{if(state.view==='agenda')render()},60000);
+home();
+</script>
+</body>
+</html>

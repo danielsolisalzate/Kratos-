@@ -1,0 +1,15 @@
+# OS Generated Files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.hxproj
+
+# Node & dependencies (si a futuro agregan backend)
+node_modules/
+npm-debug.log
+.env
+.env.local
